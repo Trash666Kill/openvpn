@@ -11,7 +11,7 @@ cd /etc/openvpn/server/easy-rsa
 cd pki/
 openvpn --genkey tls-crypt-v2-server private/server.pem
 cp ca.crt dh.pem ../../
-cp private/server.key server.pem ../../
+cp private/server.key ../../
 cp private/server.pem ../../
 cp issued/server.crt ../../
 {(
