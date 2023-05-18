@@ -3,11 +3,11 @@ apt install openvpn easy-rsa -y
 mkdir /etc/openvpn/server/easy-rsa
 ln -s /usr/share/easy-rsa/* /etc/openvpn/server/easy-rsa/
 cd /etc/openvpn/server/easy-rsa
-easyrsa init-pki
-easyrsa build-ca nopass
-easyrsa build-server-full server nopass
-easyrsa sign-req server server
-easyrsa gen-dh
+./easyrsa --batch init-pki
+./easyrsa --batch build-ca nopass
+./easyrsa build-server-full server nopass
+./easyrsa sign-req server server
+./easyrsa gen-dh
 openvpn --genkey /pki/private/server.pem
 {(
 echo "port 2944
@@ -35,5 +35,5 @@ persist-tun
 verb 3
 crl-verify crl.pem
 explicit-exit-notify
-" > server.conf
+" > ../server.conf
 )}
