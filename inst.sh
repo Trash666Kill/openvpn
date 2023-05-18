@@ -12,7 +12,8 @@ cd pki/
 openvpn --genkey tls-crypt-v2-server private/server.pem
 cp ca.crt dh.pem ../../
 cp private/server.key server.pem ../../
-cp /issued/server.crt ../../
+cp private/server.pem ../../
+cp issued/server.crt ../../
 {(
 echo "port 2944
 proto udp
