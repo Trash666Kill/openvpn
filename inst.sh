@@ -14,6 +14,7 @@ cp ca.crt dh.pem ../../
 cp private/server.key ../../
 cp private/server.pem ../../
 cp issued/server.crt ../../
+cd ../
 {(
 echo "port 2944
 proto udp
@@ -44,3 +45,4 @@ explicit-exit-notify
 )}
 #
 sysctl -w net.ipv4.ip_forward=1
+sysctl net.ipv4.ip_forward
