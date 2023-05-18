@@ -1,6 +1,7 @@
 #!/bin/bash
 apt install openvpn easy-rsa -y
 mkdir /etc/openvpn/server/easy-rsa
+mkdir -p /etc/openvpn/server/clients/emperor
 ln -s /usr/share/easy-rsa/* /etc/openvpn/server/easy-rsa/
 cd /etc/openvpn/server/easy-rsa
 ./easyrsa --batch init-pki
@@ -43,3 +44,12 @@ explicit-exit-notify 1
 #
 sysctl -w net.ipv4.ip_forward=1
 sysctl net.ipv4.ip_forward
+#
+./easyrsa --batch gen-req emperor nopass
+./easyrsa --batch sign-req client emperor
+cd pki
+openvpn --tls-crypt-v2 private/server.pem --genkey tls-crypt-v2-client private/emperor.pem
+cp ca.crt ../../clients/emperor/
+cp issued/emperor.crt ../../clients/emperor/
+cp private/emperor.key ../../clients/emperor/
+cp private/emperor.pem ../../clients/emperor/
