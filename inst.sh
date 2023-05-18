@@ -22,25 +22,22 @@ dev tun
 ca ca.crt
 cert server.crt
 key server.key
+tls-crypt-v2 server.pem
 dh dh.pem
-auth SHA512
-tls-crypt tc.key
 topology subnet
 server 10.8.15.0 255.255.255.0
 ifconfig-pool-persist ipp.txt
 push "dhcp-option DNS 9.9.9.9"
 push "dhcp-option DNS 149.112.112.112"
 #push "block-outside-dns"
-duplicate-cn
 keepalive 10 120
 cipher AES-256-GCM
 user nobody
 group nogroup
 persist-key
 persist-tun
-verb 3
-crl-verify crl.pem
-explicit-exit-notify
+verb 4
+explicit-exit-notify 1
 " > ../server.conf
 )}
 #
