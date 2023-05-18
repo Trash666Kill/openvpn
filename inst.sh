@@ -8,7 +8,11 @@ cd /etc/openvpn/server/easy-rsa
 ./easyrsa --batch build-server-full server nopass
 ./easyrsa --batch sign-req server server
 ./easyrsa --batch gen-dh
-openvpn --genkey /pki/private/server.pem
+cd pki/
+openvpn --genkey tls-crypt-v2-server private/server.pem
+cp ca.crt dh.pem ../../
+cp private/server.key server.pem ../../
+cp /issued/server.crt ../../
 {(
 echo "port 2944
 proto udp
