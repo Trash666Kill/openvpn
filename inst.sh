@@ -1,3 +1,4 @@
+#!/bin/bash
 apt install openvpn easy-rsa -y
 mkdir /etc/openvpn/server/easy-rsa
 ln -s /usr/share/easy-rsa/* /etc/openvpn/server/easy-rsa/
