@@ -5,9 +5,9 @@ ln -s /usr/share/easy-rsa/* /etc/openvpn/server/easy-rsa/
 cd /etc/openvpn/server/easy-rsa
 ./easyrsa --batch init-pki
 ./easyrsa --batch build-ca nopass
-./easyrsa build-server-full server nopass
-./easyrsa sign-req server server
-./easyrsa gen-dh
+./easyrsa --batch build-server-full server nopass
+./easyrsa --batch sign-req server server
+./easyrsa --batch gen-dh
 openvpn --genkey /pki/private/server.pem
 {(
 echo "port 2944
