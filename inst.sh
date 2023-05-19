@@ -59,6 +59,7 @@ cp -v issued/emperor.crt ../../clients/emperor
 cp -v private/emperor.key ../../clients/emperor
 cp -v private/emperor.pem ../../clients/emperor
 #
+cd ../../clients/emperor
 {(
 cat <(echo -e 'client') \
 <(echo -e 'proto udp') \
@@ -84,3 +85,4 @@ cat <(echo -e 'client') \
     <(echo -e '</tls-crypt-v2>') \
     > ../../clients/emperor/emperor.ovpn
  )}
+#
