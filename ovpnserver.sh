@@ -1,4 +1,5 @@
 #!/bin/bash
+(
 apt install openvpn easy-rsa -y
 mkdir -v /etc/openvpn/server/easy-rsa
 mkdir -pv /etc/openvpn/server/clients/emperor
@@ -83,4 +84,5 @@ cat <(echo -e 'client') \
     <(echo -e '</tls-crypt-v2>') \
     > emperor.ovpn
  )}
+ ) 2>&1 | tee outputfile
 #
