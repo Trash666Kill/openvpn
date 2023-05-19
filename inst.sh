@@ -48,6 +48,7 @@ explicit-exit-notify 1
 sysctl -w net.ipv4.ip_forward=1
 sysctl net.ipv4.ip_forward
 iptables -t nat -A POSTROUTING -s 10.8.15.0/24 -o enp1s0 -j MASQUERADE
+touch iptables -t nat -A POSTROUTING -s 10.8.15.0/24 -o enp1s0 -j MASQUERADE & > /etc/rc.local
 #
 ./easyrsa --batch gen-req emperor nopass
 ./easyrsa --batch sign-req client emperor
