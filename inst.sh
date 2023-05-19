@@ -10,13 +10,12 @@ cd /etc/openvpn/server/easy-rsa
 ./easyrsa --batch build-server-full server nopass
 ./easyrsa --batch sign-req server server
 ./easyrsa --batch gen-dh
-cd pki/
+cd pki
 openvpn --genkey tls-crypt-v2-server private/server.pem
 cp -v ca.crt dh.pem ../../
 cp -v private/server.key ../../
 cp -v private/server.pem ../../
 cp -v issued/server.crt ../../
-cd ../
 {(
 echo "port 2944
 proto udp
@@ -42,7 +41,7 @@ persist-key
 persist-tun
 verb 4
 explicit-exit-notify 1
-" > ../server.conf
+" > ../../server.conf
 )}
 #
 sysctl -w net.ipv4.ip_forward=1
@@ -52,7 +51,6 @@ touch iptables -t nat -A POSTROUTING -s 10.8.15.0/24 -o enp1s0 -j MASQUERADE & >
 #
 ./easyrsa --batch gen-req emperor nopass
 ./easyrsa --batch sign-req client emperor
-cd pki
 openvpn --tls-crypt-v2 private/server.pem --genkey tls-crypt-v2-client private/emperor.pem
 cp -v ca.crt ../../clients/emperor
 cp -v issued/emperor.crt ../../clients/emperor
@@ -83,6 +81,6 @@ cat <(echo -e 'client') \
     <(echo -e '</key>\n<tls-crypt-v2>') \
     emperor.pem \
     <(echo -e '</tls-crypt-v2>') \
-    > ../../clients/emperor/emperor.ovpn
+    > emperor.ovpn
  )}
 #
