@@ -72,6 +72,7 @@ cat <(echo -e 'client') \
 <(echo -e 'cipher AES-256-GCM') \
 <(echo -e '#user nobody') \
 <(echo -e '#group nobody') \
+<(echo -e '#redirect-gateway def1') \
 <(echo -e 'verb 3') \
     <(echo -e '<ca>') \
     ca.crt \
