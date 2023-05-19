@@ -20,6 +20,7 @@ cd ../
 echo "port 2944
 proto udp
 dev tun
+allow-compression no
 ca ca.crt
 cert server.crt
 key server.key
@@ -33,6 +34,7 @@ push "dhcp-option DNS 149.112.112.112"
 #push "block-outside-dns"
 keepalive 10 120
 cipher AES-256-GCM
+client-config-dir ccd
 user nobody
 group nogroup
 persist-key
