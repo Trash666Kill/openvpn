@@ -49,7 +49,7 @@ sysctl net.ipv4.ip_forward
 ./easyrsa --batch sign-req client emperor
 cd pki
 openvpn --tls-crypt-v2 private/server.pem --genkey tls-crypt-v2-client private/emperor.pem
-cp ca.crt ../../clients/emperor/
-cp issued/emperor.crt ../../clients/emperor/
-cp private/emperor.key ../../clients/emperor/
-cp private/emperor.pem ../../clients/emperor/
+cp ca.crt ../../clients/emperor
+cp issued/emperor.crt ../../clients/emperor
+cp private/emperor.key ../../clients/emperor
+cp private/emperor.pem ../../clients/emperor
