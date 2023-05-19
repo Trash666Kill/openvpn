@@ -2,7 +2,7 @@
 apt install openvpn easy-rsa -y
 mkdir /etc/openvpn/server/easy-rsa
 mkdir -p /etc/openvpn/server/clients/emperor
-ln -s /usr/share/easy-rsa/* /etc/openvpn/server/easy-rsa/
+ln -s /usr/share/easy-rsa/* /etc/openvpn/server/easy-rsa
 cd /etc/openvpn/server/easy-rsa
 ./easyrsa --batch init-pki
 ./easyrsa --batch build-ca nopass
