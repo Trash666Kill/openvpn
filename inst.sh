@@ -1,7 +1,8 @@
 #!/bin/bash
 apt install openvpn easy-rsa -y
-mkdir /etc/openvpn/server/easy-rsa
-mkdir -p /etc/openvpn/server/clients/emperor
+mkdir -v /etc/openvpn/server/easy-rsa
+mkdir -pv /etc/openvpn/server/clients/emperor
+mkdir -p /etc/openvpn/server/ccd
 ln -s /usr/share/easy-rsa/* /etc/openvpn/server/easy-rsa
 cd /etc/openvpn/server/easy-rsa
 ./easyrsa --batch init-pki
@@ -11,10 +12,10 @@ cd /etc/openvpn/server/easy-rsa
 ./easyrsa --batch gen-dh
 cd pki/
 openvpn --genkey tls-crypt-v2-server private/server.pem
-cp ca.crt dh.pem ../../
-cp private/server.key ../../
-cp private/server.pem ../../
-cp issued/server.crt ../../
+cp -v ca.crt dh.pem ../../
+cp -v private/server.key ../../
+cp -v private/server.pem ../../
+cp -v issued/server.crt ../../
 cd ../
 {(
 echo "port 2944
@@ -51,7 +52,7 @@ sysctl net.ipv4.ip_forward
 ./easyrsa --batch sign-req client emperor
 cd pki
 openvpn --tls-crypt-v2 private/server.pem --genkey tls-crypt-v2-client private/emperor.pem
-cp ca.crt ../../clients/emperor
-cp issued/emperor.crt ../../clients/emperor
-cp private/emperor.key ../../clients/emperor
-cp private/emperor.pem ../../clients/emperor
+cp -v ca.crt ../../clients/emperor
+cp -v issued/emperor.crt ../../clients/emperor
+cp -v private/emperor.key ../../clients/emperor
+cp -v private/emperor.pem ../../clients/emperor
