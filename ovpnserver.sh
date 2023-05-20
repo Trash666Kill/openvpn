@@ -50,9 +50,11 @@ sysctl net.ipv4.ip_forward
 iptables -t nat -A POSTROUTING -s 10.8.15.0/24 -o enp1s0 -j MASQUERADE
 echo "iptables -t nat -A POSTROUTING -s 10.8.15.0/24 -o enp1s0 -j MASQUERADE &" >> /etc/rc.local
 #
+cd ../
 ./easyrsa --batch gen-req emperor nopass
 ./easyrsa --batch sign-req client emperor
 openvpn --tls-crypt-v2 private/server.pem --genkey tls-crypt-v2-client private/emperor.pem
+cd pki
 cp -v ca.crt ../../clients/emperor
 cp -v issued/emperor.crt ../../clients/emperor
 cp -v private/emperor.key ../../clients/emperor
