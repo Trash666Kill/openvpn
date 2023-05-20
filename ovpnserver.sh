@@ -36,6 +36,7 @@ push "dhcp-option DNS 149.112.112.112"
 keepalive 10 120
 cipher AES-256-GCM
 client-config-dir ccd
+duplicate-cn
 user nobody
 group nogroup
 persist-key
