@@ -18,7 +18,7 @@ cp -v private/server.key ../../
 cp -v private/server.pem ../../
 cp -v issued/server.crt ../../
 {(
-printf "port 2944
+printf 'port 2944
 proto udp
 dev tun
 allow-compression no
@@ -41,8 +41,7 @@ group nogroup
 persist-key
 persist-tun
 verb 4
-explicit-exit-notify 1
-" > ../../server.conf
+explicit-exit-notify 1' > ../../server.conf
 )}
 #
 sysctl -w net.ipv4.ip_forward=1
