@@ -85,5 +85,6 @@ cat <(echo -e 'client') \
     <(echo -e '</tls-crypt-v2>') \
     > emperor.ovpn
  )}
+ chown emperor:emperor emperor.ovpn
  ) 2>&1 | tee outputfile
 #
