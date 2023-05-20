@@ -18,7 +18,7 @@ cp -v private/server.key ../../
 cp -v private/server.pem ../../
 cp -v issued/server.crt ../../
 {(
-echo "port 2944
+printf "port 2944
 proto udp
 dev tun
 allow-compression no
