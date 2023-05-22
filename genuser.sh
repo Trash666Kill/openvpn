@@ -1,17 +1,22 @@
 #!/bin/bash
 #
-mkdir -v /etc/openvpn/server/clients/emperor
-cd /etc/openvpn/server/easy-rsa
-./easyrsa --batch gen-req emperor nopass
-./easyrsa --batch sign-req client emperor
-cd pki
-openvpn --tls-crypt-v2 private/server.pem --genkey tls-crypt-v2-client private/emperor.pem
-cp -v ca.crt ../../clients/emperor
-cp -v issued/emperor.crt ../../clients/emperor
-cp -v private/emperor.key ../../clients/emperor
-cp -v private/emperor.pem ../../clients/emperor
+if [[ $EUID -ne 0 ]]; then
+   	echo "This script must be run as sudo"
+   	exit 1
+else
 #
-cd ../../clients/emperor
+mkdir -v /etc/openvpn/server/clients/$1
+cd /etc/openvpn/server/easy-rsa
+./easyrsa --batch gen-req $1 nopass
+./easyrsa --batch sign-req client $1
+cd pki
+openvpn --tls-crypt-v2 private/server.pem --genkey tls-crypt-v2-client private/$1.pem
+cp -v ca.crt ../../clients/$1
+cp -v issued/$1.crt ../../clients/$1
+cp -v private/$1.key ../../clients/$1
+cp -v private/$1.pem ../../clients/$1
+#
+cd ../../clients/$1
 {(
 cat <(echo -e 'client') \
 <(echo -e 'proto udp') \
@@ -36,6 +41,7 @@ cat <(echo -e 'client') \
     <(echo -e '</key>\n<tls-crypt-v2>') \
     emperor.pem \
     <(echo -e '</tls-crypt-v2>') \
-    > emperor.ovpn
+    > $1.ovpn
  )}
- chown emperor:emperor emperor.ovpn
+ chown emperor:emperor $1.ovpn
+ fi
