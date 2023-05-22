@@ -1,4 +1,6 @@
+#!/bin/bash
 #
+mkdir -v /etc/openvpn/server/clients/emperor
 cd /etc/openvpn/server/easy-rsa
 ./easyrsa --batch gen-req emperor nopass
 ./easyrsa --batch sign-req client emperor
