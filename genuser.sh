@@ -35,11 +35,11 @@ cat <(echo -e 'client') \
     <(echo -e '<ca>') \
     ca.crt \
     <(echo -e '</ca>\n<cert>') \
-    emperor.crt \
+    $1.crt \
     <(echo -e '</cert>\n<key>') \
-    emperor.key \
+    $1.key \
     <(echo -e '</key>\n<tls-crypt-v2>') \
-    emperor.pem \
+    $1.pem \
     <(echo -e '</tls-crypt-v2>') \
     > $1.ovpn
  )}
