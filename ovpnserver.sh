@@ -1,4 +1,10 @@
 #!/bin/bash
+#
+if [[ $EUID -ne 0 ]]; then
+   	echo "This script must be run as sudo"
+   	exit 1
+else
+#
 (
 apt install openvpn easy-rsa -y
 mkdir -v /etc/openvpn/server/easy-rsa
@@ -90,3 +96,4 @@ cat <(echo -e 'client') \
  chown emperor:emperor emperor.ovpn
  ) 2>&1 | tee outputfile
 #
+fi
