@@ -7,8 +7,8 @@ else
 #
 mkdir -v /etc/openvpn/server/clients/$1
 cd /etc/openvpn/server/easy-rsa
-./easyrsa --batch gen-req $1 nopass
-./easyrsa --batch sign-req client $1
+./easyrsa --batch --req-cn=$1 gen-req $1 nopass
+./easyrsa --batch --req-cn=$1 sign-req client $1
 cd pki
 openvpn --tls-crypt-v2 private/server.pem --genkey tls-crypt-v2-client private/$1.pem
 cp -v ca.crt ../../clients/$1
