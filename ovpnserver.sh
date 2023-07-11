@@ -57,8 +57,8 @@ iptables -t nat -A POSTROUTING -s 10.8.15.0/24 -o enp1s0 -j MASQUERADE
 echo "iptables -t nat -A POSTROUTING -s 10.8.15.0/24 -o enp1s0 -j MASQUERADE &" >> /etc/rc.local
 #
 cd ../
-./easyrsa --batch gen-req emperor nopass
-./easyrsa --batch sign-req client emperor
+./easyrsa --batch --req-cn=emperor gen-req emperor nopass
+./easyrsa --batch --req-cn=emperor sign-req client emperor
 cd pki
 openvpn --tls-crypt-v2 private/server.pem --genkey tls-crypt-v2-client private/emperor.pem
 cp -v ca.crt ../../clients/emperor
