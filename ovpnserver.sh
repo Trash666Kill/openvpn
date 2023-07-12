@@ -41,6 +41,7 @@ push "dhcp-option DNS 149.112.112.112"
 #push "block-outside-dns"
 keepalive 10 120
 cipher AES-256-GCM
+ccd-exclusive
 client-config-dir ccd
 duplicate-cn
 user nobody
