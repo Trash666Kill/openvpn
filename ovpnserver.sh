@@ -7,6 +7,7 @@ else
 #
 (
 apt install openvpn easy-rsa -y
+adduser --system --no-create-home --group openvpn
 mkdir -v /etc/openvpn/server/easy-rsa
 mkdir -pv /etc/openvpn/server/clients/emperor
 mkdir -p /etc/openvpn/server/ccd
@@ -23,6 +24,7 @@ cp -v ca.crt dh.pem ../../
 cp -v private/server.key ../../
 cp -v private/server.pem ../../
 cp -v issued/server.crt ../../
+chmod 400 /etc/openvpn/server/{server.key,server.crt,ca.crt}
 {(
 printf 'port 2944
 proto udp
@@ -50,6 +52,7 @@ persist-key
 persist-tun
 verb 4
 explicit-exit-notify 1' > ../../server.conf
+chmod 640 /etc/openvpn/server/server.conf
 )}
 #
 sysctl -w net.ipv4.ip_forward=1
