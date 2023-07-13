@@ -46,8 +46,8 @@ cipher AES-256-GCM
 ccd-exclusive
 client-config-dir ccd
 duplicate-cn
-user nobody
-group nogroup
+user openvpn
+group openvpn
 persist-key
 persist-tun
 verb 4
