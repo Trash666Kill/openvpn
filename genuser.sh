@@ -21,7 +21,7 @@ cd ../../clients/$1
 cat <(echo -e 'client') \
 <(echo -e 'proto udp') \
 <(echo -e 'dev tun') \
-<(echo -e 'remote strychnine.duckdns.org 2944') \
+<(echo -e 'remote shorting.com.br 2944') \
 <(echo -e 'resolv-retry infinite') \
 <(echo -e 'nobind') \
 <(echo -e 'persist-key') \
