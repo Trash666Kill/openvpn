@@ -6,7 +6,7 @@ if [[ $EUID -ne 0 ]]; then
 else
 #
 (
-apt install openvpn easy-rsa -y
+apt install openvpn easy-rsa iptables -y
 adduser --system --no-create-home --group openvpn
 mkdir -v /etc/openvpn/server/easy-rsa
 mkdir -pv /etc/openvpn/server/clients/emperor
