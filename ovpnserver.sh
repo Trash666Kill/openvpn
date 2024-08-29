@@ -37,6 +37,7 @@ tls-crypt-v2 server.pem
 dh dh.pem
 topology subnet
 server 10.8.15.0 255.255.255.0
+push "route 10.8.15.0 255.255.255.0"
 ifconfig-pool-persist ipp.txt
 push "dhcp-option DNS 9.9.9.9"
 push "dhcp-option DNS 149.112.112.112"
