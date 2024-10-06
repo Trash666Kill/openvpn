@@ -41,7 +41,7 @@ push "route 10.8.11.0 255.255.255.0"
 ifconfig-pool-persist ipp.txt
 push "dhcp-option DNS 9.9.9.9"
 push "dhcp-option DNS 149.112.112.112"
-#push "block-outside-dns"
+push "block-outside-dns"
 keepalive 10 120
 cipher AES-256-GCM
 ccd-exclusive
@@ -85,7 +85,7 @@ cat <(echo -e 'client') \
 <(echo -e 'cipher AES-256-GCM') \
 <(echo -e '#user nobody') \
 <(echo -e '#group nobody') \
-<(echo -e '#redirect-gateway def1') \
+<(echo -e 'redirect-gateway def1') \
 <(echo -e 'verb 3') \
     <(echo -e '<ca>') \
     ca.crt \
@@ -97,6 +97,7 @@ cat <(echo -e 'client') \
     emperor.pem \
     <(echo -e '</tls-crypt-v2>') \
     > emperor.ovpn
+ printf 'push "route 10.8.11.1 255.255.255.255"' > ../../ccd/emperor
  )}
  chown emperor:emperor emperor.ovpn
  ) 2>&1 | tee outputfile
