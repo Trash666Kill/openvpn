@@ -42,6 +42,7 @@ cat <(echo -e 'client') \
     $1.pem \
     <(echo -e '</tls-crypt-v2>') \
     > $1.ovpn
+printf 'push "route 10.8.11.1 255.255.255.255"' > ../../ccd/$1
  )}
  chown emperor:emperor $1.ovpn
  fi
