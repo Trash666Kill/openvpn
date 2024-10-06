@@ -1,22 +1,28 @@
 #!/bin/bash
 #
 if [[ $EUID -ne 0 ]]; then
-   	echo "This script must be run as sudo"
-   	exit 1
-else
+    echo "Este script deve ser executado como sudo"
+    exit 1
+fi
 #
-mkdir -v /etc/openvpn/server/clients/$1
+read -p "Digite o nome do usuário: " username
+if [[ -z "$username" ]]; then
+    echo "Nenhum nome de usuário inserido. Encerrando o script."
+    exit 1
+fi
+#
+mkdir -v /etc/openvpn/server/clients/$username
 cd /etc/openvpn/server/easy-rsa
-./easyrsa --batch --req-cn=$1 gen-req $1 nopass
-./easyrsa --batch --req-cn=$1 sign-req client $1
+./easyrsa --batch --req-cn=$username gen-req $username nopass
+./easyrsa --batch --req-cn=$username sign-req client $username
 cd pki
-openvpn --tls-crypt-v2 private/server.pem --genkey tls-crypt-v2-client private/$1.pem
-cp -v ca.crt ../../clients/$1
-cp -v issued/$1.crt ../../clients/$1
-cp -v private/$1.key ../../clients/$1
-cp -v private/$1.pem ../../clients/$1
+openvpn --tls-crypt-v2 private/server.pem --genkey tls-crypt-v2-client private/$username.pem
+cp -v ca.crt ../../clients/$username
+cp -v issued/$username.crt ../../clients/$username
+cp -v private/$username.key ../../clients/$username
+cp -v private/$username.pem ../../clients/$username
 #
-cd ../../clients/$1
+cd ../../clients/$username
 {(
 cat <(echo -e 'client') \
 <(echo -e 'proto udp') \
@@ -35,14 +41,13 @@ cat <(echo -e 'client') \
     <(echo -e '<ca>') \
     ca.crt \
     <(echo -e '</ca>\n<cert>') \
-    $1.crt \
+    $username.crt \
     <(echo -e '</cert>\n<key>') \
-    $1.key \
+    $username.key \
     <(echo -e '</key>\n<tls-crypt-v2>') \
-    $1.pem \
+    $username.pem \
     <(echo -e '</tls-crypt-v2>') \
-    > $1.ovpn
-printf 'push "route 10.8.11.1 255.255.255.255"' > ../../ccd/$1
- )}
- chown emperor:emperor $1.ovpn
- fi
+    > $username.ovpn
+printf 'push "route 10.8.11.1 255.255.255.255"' > ../../ccd/$username
+)}
+chown emperor:emperor $username.ovpn
