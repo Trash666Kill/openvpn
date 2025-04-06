@@ -6,10 +6,10 @@ if [[ $EUID -ne 0 ]]; then
 else
 #
 (
-apt install openvpn easy-rsa iptables -y
+apt install openvpn easy-rsa -y
 adduser --system --no-create-home --group openvpn
 mkdir -v /etc/openvpn/server/easy-rsa
-mkdir -pv /etc/openvpn/server/clients/emperor
+mkdir -pv /etc/openvpn/server/clients/sysop
 mkdir -p /etc/openvpn/server/ccd
 ln -s /usr/share/easy-rsa/* /etc/openvpn/server/easy-rsa
 cd /etc/openvpn/server/easy-rsa
@@ -61,16 +61,16 @@ iptables -t nat -A POSTROUTING -s 10.8.15.0/24 -o enp1s0 -j MASQUERADE
 echo "iptables -t nat -A POSTROUTING -s 10.8.15.0/24 -o enp1s0 -j MASQUERADE &" >> /etc/rc.local
 #
 cd ../
-./easyrsa --batch --req-cn=emperor gen-req emperor nopass
-./easyrsa --batch --req-cn=emperor sign-req client emperor
+./easyrsa --batch --req-cn=sysop gen-req sysop nopass
+./easyrsa --batch --req-cn=sysop sign-req client sysop
 cd pki
-openvpn --tls-crypt-v2 private/server.pem --genkey tls-crypt-v2-client private/emperor.pem
-cp -v ca.crt ../../clients/emperor
-cp -v issued/emperor.crt ../../clients/emperor
-cp -v private/emperor.key ../../clients/emperor
-cp -v private/emperor.pem ../../clients/emperor
+openvpn --tls-crypt-v2 private/server.pem --genkey tls-crypt-v2-client private/sysop.pem
+cp -v ca.crt ../../clients/sysop
+cp -v issued/sysop.crt ../../clients/sysop
+cp -v private/sysop.key ../../clients/sysop
+cp -v private/sysop.pem ../../clients/sysop
 #
-cd ../../clients/emperor
+cd ../../clients/sysop
 {(
 cat <(echo -e 'client') \
 <(echo -e 'proto udp') \
@@ -89,16 +89,16 @@ cat <(echo -e 'client') \
     <(echo -e '<ca>') \
     ca.crt \
     <(echo -e '</ca>\n<cert>') \
-    emperor.crt \
+    sysop.crt \
     <(echo -e '</cert>\n<key>') \
-    emperor.key \
+    sysop.key \
     <(echo -e '</key>\n<tls-crypt-v2>') \
-    emperor.pem \
+    sysop.pem \
     <(echo -e '</tls-crypt-v2>') \
-    > emperor.ovpn
- printf 'push "route 10.8.11.1 255.255.255.255"' > ../../ccd/emperor
+    > sysop.ovpn
+ printf 'push "route 10.8.11.1 255.255.255.255"' > ../../ccd/sysop
  )}
- chown emperor:emperor emperor.ovpn
+ chown sysop:sysop sysop.ovpn
  ) 2>&1 | tee outputfile
 #
 fi
