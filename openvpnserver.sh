@@ -5,11 +5,14 @@ if [[ $EUID -ne 0 ]]; then
    	exit 1
 else
 #
+
+TARGET_USER=$(grep 1001 /etc/passwd | cut -f 1 -d ":")
+
 (
 apt install openvpn easy-rsa -y
 adduser --system --no-create-home --group openvpn
 mkdir -v /etc/openvpn/server/easy-rsa
-mkdir -pv /etc/openvpn/server/clients/sysop
+mkdir -pv /etc/openvpn/server/clients/"$TARGET_USER"
 mkdir -p /etc/openvpn/server/ccd
 ln -s /usr/share/easy-rsa/* /etc/openvpn/server/easy-rsa
 cd /etc/openvpn/server/easy-rsa
@@ -61,16 +64,16 @@ iptables -t nat -A POSTROUTING -s 10.8.15.0/24 -o enp1s0 -j MASQUERADE
 echo "iptables -t nat -A POSTROUTING -s 10.8.15.0/24 -o enp1s0 -j MASQUERADE &" >> /etc/rc.local
 #
 cd ../
-./easyrsa --batch --req-cn=sysop gen-req sysop nopass
-./easyrsa --batch --req-cn=sysop sign-req client sysop
+./easyrsa --batch --req-cn="$TARGET_USER" gen-req "$TARGET_USER" nopass
+./easyrsa --batch --req-cn="$TARGET_USER" sign-req client "$TARGET_USER"
 cd pki
-openvpn --tls-crypt-v2 private/server.pem --genkey tls-crypt-v2-client private/sysop.pem
-cp -v ca.crt ../../clients/sysop
-cp -v issued/sysop.crt ../../clients/sysop
-cp -v private/sysop.key ../../clients/sysop
-cp -v private/sysop.pem ../../clients/sysop
+openvpn --tls-crypt-v2 private/server.pem --genkey tls-crypt-v2-client private/"$TARGET_USER".pem
+cp -v ca.crt ../../clients/"$TARGET_USER"
+cp -v issued/"$TARGET_USER".crt ../../clients/"$TARGET_USER"
+cp -v private/"$TARGET_USER".key ../../clients/"$TARGET_USER"
+cp -v private/"$TARGET_USER".pem ../../clients/"$TARGET_USER"
 #
-cd ../../clients/sysop
+cd ../../clients/"$TARGET_USER"
 {(
 cat <(echo -e 'client') \
 <(echo -e 'proto udp') \
@@ -89,16 +92,16 @@ cat <(echo -e 'client') \
     <(echo -e '<ca>') \
     ca.crt \
     <(echo -e '</ca>\n<cert>') \
-    sysop.crt \
+    "$TARGET_USER".crt \
     <(echo -e '</cert>\n<key>') \
-    sysop.key \
+    "$TARGET_USER".key \
     <(echo -e '</key>\n<tls-crypt-v2>') \
-    sysop.pem \
+    "$TARGET_USER".pem \
     <(echo -e '</tls-crypt-v2>') \
-    > sysop.ovpn
- printf 'push "route 10.8.11.1 255.255.255.255"' > ../../ccd/sysop
+    > "$TARGET_USER".ovpn
+ printf 'push "route 10.8.11.1 255.255.255.255"' > ../../ccd/"$TARGET_USER"
  )}
- chown sysop:sysop sysop.ovpn
+ chown "$TARGET_USER":"$TARGET_USER" "$TARGET_USER".ovpn
  ) 2>&1 | tee outputfile
 #
 fi
