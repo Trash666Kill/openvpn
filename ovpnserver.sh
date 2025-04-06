@@ -75,7 +75,7 @@ cd ../../clients/sysop
 cat <(echo -e 'client') \
 <(echo -e 'proto udp') \
 <(echo -e 'dev tun') \
-<(echo -e 'remote strychnine.duckdns.org 2944') \
+<(echo -e 'remote vps24410.frlfryiwad7efpapvov5wnqzbf.com.br 2944') \
 <(echo -e 'resolv-retry infinite') \
 <(echo -e 'nobind') \
 <(echo -e 'persist-key') \
