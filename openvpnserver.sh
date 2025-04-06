@@ -6,7 +6,10 @@ if [[ $EUID -ne 0 ]]; then
 else
 #
 
+target_user() {
+# Define o usuário inicial
 TARGET_USER=$(grep 1001 /etc/passwd | cut -f 1 -d ":")
+}
 
 (
 apt install openvpn easy-rsa -y
