@@ -9,18 +9,20 @@ else
 target_user() {
 # Define o usuário inicial
 TARGET_USER=$(grep 1001 /etc/passwd | cut -f 1 -d ":")
+
+# Cria o grupo de execução do serviço
+adduser --system --no-create-home --group openvpn
 }
 
 packages() {
 printf "\e[32m*\e[0m INSTALLING PACKAGES\n"
-EDITOR="openvpn easy-rsa iptables"
-apt -y install $EDITOR > /dev/null 2>&1
+DEP="openvpn easy-rsa iptables"
+apt -y install $DEP > /dev/null 2>&1
 }
 
 
 (
-apt install openvpn easy-rsa -y
-adduser --system --no-create-home --group openvpn
+
 mkdir -v /etc/openvpn/server/easy-rsa
 mkdir -pv /etc/openvpn/server/clients/"$TARGET_USER"
 mkdir -p /etc/openvpn/server/ccd
